@@ -16,23 +16,36 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [])
     }
     
-    func test_load_requestsDataFromURL() {
+    func test_load_requestsDataFromURL() async throws {
         let url = URL(string: "http://a-given.com")!
         let (sut, client) = makeSUT(url: url)
         
-        sut.load()
+        try await sut.load()
         
         XCTAssertEqual(client.requestedURLs, [url])
     }
     
-    func test_loadTwice_requestsDataFromURLTwice() {
+    func test_loadTwice_requestsDataFromURLTwice() async throws {
         let url = URL(string: "http://a-given.com")!
         let (sut, client) = makeSUT(url: url)
         
-        sut.load()
-        sut.load()
+        try await sut.load()
+        try await sut.load()
         
         XCTAssertEqual(client.requestedURLs, [url, url])
+    }
+    
+    func test_load_deliverErrorOnClientError() async {
+        let (sut, client) = makeSUT()
+        client.error = NSError(domain: "Test", code: 0)
+        
+        var returnedError: RemoteRecipeLoader.Error?
+        do {
+            try await sut.load()
+        } catch {
+            returnedError = error as? RemoteRecipeLoader.Error
+        }
+        XCTAssertEqual(returnedError, .connectivity)
     }
     
     // MARK: - Helpers
@@ -45,10 +58,18 @@ final class RemoteRecipeLoaderTests: XCTestCase {
     
     private class HTTPClientSpy: HTTPClient {
         var requestedURLs = [URL]()
+        var error: Error?
         
-        func get(from url: URL) {
+        func get(from url: URL) -> Error? {
             requestedURLs.append(url)
+            return error
         }
         
+        func get(from url: URL) throws {
+            if let error {
+                throw error
+            }
+            requestedURLs.append(url)
+        }
     }
 }
