@@ -39,13 +39,15 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         client.error = NSError(domain: "Test", code: 0)
         
-        var returnedError: RemoteRecipeLoader.Error?
+        var returnedErrors = [RemoteRecipeLoader.Error]()
         do {
             try await sut.load()
         } catch {
-            returnedError = error as? RemoteRecipeLoader.Error
+            if let error = error as? RemoteRecipeLoader.Error {
+                returnedErrors.append(error)
+            }
         }
-        XCTAssertEqual(returnedError, .connectivity)
+        XCTAssertEqual(returnedErrors, [.connectivity])
     }
     
     // MARK: - Helpers
