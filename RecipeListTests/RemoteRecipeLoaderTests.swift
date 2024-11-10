@@ -62,11 +62,6 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         var requestedURLs = [URL]()
         var error: Error?
         
-        func get(from url: URL) -> Error? {
-            requestedURLs.append(url)
-            return error
-        }
-        
         func get(from url: URL) throws {
             if let error {
                 throw error
