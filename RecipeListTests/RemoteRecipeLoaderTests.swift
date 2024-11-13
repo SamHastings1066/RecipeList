@@ -52,7 +52,7 @@ final class RemoteRecipeLoaderTests: XCTestCase {
     
     // MARK: - Helpers
 
-    private func makeSUT(url: URL = URL(string: "http://a-given.com")!) -> (sut: RemoteRecipeLoader, client: HTTPClientSpy) {
+    private func makeSUT(url: URL = anyUrl()) -> (sut: RemoteRecipeLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
         let sut = RemoteRecipeLoader(url: url, client: client)
         return (sut, client)
@@ -69,4 +69,8 @@ final class RemoteRecipeLoaderTests: XCTestCase {
             requestedURLs.append(url)
         }
     }
+}
+
+private func anyUrl() -> URL {
+    URL(string: "http://any-url.com")!
 }
