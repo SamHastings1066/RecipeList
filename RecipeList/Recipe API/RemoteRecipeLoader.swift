@@ -17,7 +17,7 @@ public final class RemoteRecipeLoader {
     
     public enum Error: Swift.Error {
         case connectivity
-        case invalidData
+        case invalidResponse
         case invalidJson
     }
     
@@ -32,7 +32,7 @@ public final class RemoteRecipeLoader {
         }
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw Error.invalidData
+            throw Error.invalidResponse
         }
         
         if let json = try? JSONSerialization.jsonObject(with: data) {

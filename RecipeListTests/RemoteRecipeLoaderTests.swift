@@ -48,7 +48,7 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         
     }
     
-    func test_load_deliversBadResponseErrorOnNon200Response() async {
+    func test_load_deliversInvalidResponseErrorOnNon200Response() async {
         
         let non200StatusCodes = [199, 201, 300, 400, 500]
         let dummyData = Data()
@@ -58,15 +58,15 @@ final class RemoteRecipeLoaderTests: XCTestCase {
             let (sut, _) = makeSUT(result: .success(non200Response))
             do {
                 _ = try await sut.load()
-                XCTFail("Expected error: \(RemoteRecipeLoader.Error.invalidData), got success")
+                XCTFail("Expected error: \(RemoteRecipeLoader.Error.invalidResponse), got success")
             } catch {
-                XCTAssertEqual(error as? RemoteRecipeLoader.Error, RemoteRecipeLoader.Error.invalidData)
+                XCTAssertEqual(error as? RemoteRecipeLoader.Error, RemoteRecipeLoader.Error.invalidResponse)
             }
         }
         
     }
     
-    func test_load_deliversBadResponseErrorOn200ResponseWithInvalidJSON() async {
+    func test_load_deliversInvalidJsonErrorOn200ResponseWithInvalidJSON() async {
         let invalidData = Data("invalid-json".utf8)
         
         let (sut, _) = makeSUT(result: .success((invalidData, httpResponse(code: 200))))
