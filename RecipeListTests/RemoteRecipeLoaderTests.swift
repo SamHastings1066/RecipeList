@@ -20,7 +20,7 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         let url = URL(string: "http://a-given.com")!
         let (sut, client) = makeSUT(url: url)
         
-        try await sut.load()
+        _ = try await sut.load()
         
         XCTAssertEqual(client.requestedURLs, [url])
     }
@@ -29,8 +29,8 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         let url = URL(string: "http://a-given.com")!
         let (sut, client) = makeSUT(url: url)
         
-        try await sut.load()
-        try await sut.load()
+        _ = try await sut.load()
+        _ = try await sut.load()
         
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
@@ -40,7 +40,7 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         let (sut, _) = makeSUT(result: .failure(anyError()))
         
         do {
-            try await sut.load()
+            _ = try await sut.load()
             XCTFail("Expected error: \(RemoteRecipeLoader.Error.connectivity), got success")
         } catch {
             XCTAssertEqual(error as? RemoteRecipeLoader.Error, RemoteRecipeLoader.Error.connectivity)
@@ -57,7 +57,7 @@ final class RemoteRecipeLoaderTests: XCTestCase {
             let non200Response = (dummyData, httpResponse(code: code))
             let (sut, _) = makeSUT(result: .success(non200Response))
             do {
-                try await sut.load()
+                _ = try await sut.load()
                 XCTFail("Expected error: \(RemoteRecipeLoader.Error.invalidData), got success")
             } catch {
                 XCTAssertEqual(error as? RemoteRecipeLoader.Error, RemoteRecipeLoader.Error.invalidData)
@@ -66,6 +66,28 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         
     }
     
+    func test_load_deliversBadResponseErrorOn200ResponseWithInvalidJSON() async {
+        let invalidData = Data("invalid-json".utf8)
+        
+        let (sut, _) = makeSUT(result: .success((invalidData, httpResponse(code: 200))))
+        do {
+            _ = try await sut.load()
+            XCTFail("Expected error: \(RemoteRecipeLoader.Error.invalidJson), got success")
+        } catch {
+            XCTAssertEqual(error as? RemoteRecipeLoader.Error, RemoteRecipeLoader.Error.invalidJson)
+        }
+    }
+    
+    func test_load_deliversNoRecipeItemsOn200HTTPResponseWithEmptyJSONList() async {
+        let emptyListJSONData = makeRecipesJSONData([])
+        let (sut, _) = makeSUT(result: .success((emptyListJSONData, httpResponse(code: 200))))
+        do {
+            let recipeItems = try await sut.load()
+            XCTAssertEqual(recipeItems, [])
+        } catch {
+            XCTFail("Expected success, got error: \(error.localizedDescription)")
+        }
+    }
     
     
     // MARK: - Helpers
@@ -89,6 +111,11 @@ final class RemoteRecipeLoaderTests: XCTestCase {
             return try result.get()
         }
     }
+    
+    private func makeRecipesJSONData(_ recipes: [[String: Any]]) -> Data {
+        let json = [ "recipes" : recipes ]
+        return try! JSONSerialization.data(withJSONObject: json)
+    }
 }
 
 private func anyUrl() -> URL {
@@ -100,7 +127,12 @@ private func httpResponse(code: Int) -> HTTPURLResponse {
 }
 
 private func anyValidResponse() -> (Data, URLResponse) {
-    (Data(), httpResponse(code: 200))
+    (anyValidData(), httpResponse(code: 200))
+}
+
+private func anyValidData() -> Data {
+    let json: [String: Any] = [:]
+    return try! JSONSerialization.data(withJSONObject: json)
 }
 
 private func anyError() -> Error {

@@ -18,6 +18,7 @@ public final class RemoteRecipeLoader {
     public enum Error: Swift.Error {
         case connectivity
         case invalidData
+        case invalidJson
     }
     
     public init(url: URL, client: HTTPClient) {
@@ -25,13 +26,19 @@ public final class RemoteRecipeLoader {
         self.client = client
     }
     
-    public func load() async throws {
+    public func load() async throws -> [RecipeItem] {
         guard let (data, response) = try? await client.get(from: url) else {
             throw Error.connectivity
         }
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             throw Error.invalidData
+        }
+        
+        if let json = try? JSONSerialization.jsonObject(with: data) {
+            return []
+        } else {
+            throw Error.invalidJson
         }
     }
 }
