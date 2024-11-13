@@ -35,9 +35,9 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
     
-    func test_load_deliversErrorOnClientError() async {
+    func test_load_deliversConnectivityErrorOnClientError() async {
         
-        let (sut, client) = makeSUT(result: .failure(anyError()))
+        let (sut, _) = makeSUT(result: .failure(anyError()))
         
         do {
             try await sut.load()
@@ -47,6 +47,26 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         }
         
     }
+    
+    func test_load_deliversBadResponseErrorOnNon200Response() async {
+        
+        let non200StatusCodes = [199, 201, 300, 400, 500]
+        let dummyData = Data()
+        
+        for code in non200StatusCodes {
+            let non200Response = (dummyData, httpResponse(code: code))
+            let (sut, _) = makeSUT(result: .success(non200Response))
+            do {
+                try await sut.load()
+                XCTFail("Expected error: \(RemoteRecipeLoader.Error.invalidData), got success")
+            } catch {
+                XCTAssertEqual(error as? RemoteRecipeLoader.Error, RemoteRecipeLoader.Error.invalidData)
+            }
+        }
+        
+    }
+    
+    
     
     // MARK: - Helpers
 

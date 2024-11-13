@@ -17,6 +17,7 @@ public final class RemoteRecipeLoader {
     
     public enum Error: Swift.Error {
         case connectivity
+        case invalidData
     }
     
     public init(url: URL, client: HTTPClient) {
@@ -25,10 +26,12 @@ public final class RemoteRecipeLoader {
     }
     
     public func load() async throws {
-        do {
-            _ = try await client.get(from: url)
-        } catch {
+        guard let (data, response) = try? await client.get(from: url) else {
             throw Error.connectivity
+        }
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw Error.invalidData
         }
     }
 }
