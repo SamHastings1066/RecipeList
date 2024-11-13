@@ -35,38 +35,38 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
     
-    func test_load_deliverErrorOnClientError() async {
-        let (sut, client) = makeSUT()
-        client.error = NSError(domain: "Test", code: 0)
+    func test_load_deliversErrorOnClientError() async {
         
-        var returnedErrors = [RemoteRecipeLoader.Error]()
+        let (sut, client) = makeSUT(result: .failure(anyError()))
+        
         do {
             try await sut.load()
+            XCTFail("Expected error: \(RemoteRecipeLoader.Error.connectivity), got success")
         } catch {
-            if let error = error as? RemoteRecipeLoader.Error {
-                returnedErrors.append(error)
-            }
+            XCTAssertEqual(error as? RemoteRecipeLoader.Error, RemoteRecipeLoader.Error.connectivity)
         }
-        XCTAssertEqual(returnedErrors, [.connectivity])
+        
     }
     
     // MARK: - Helpers
 
-    private func makeSUT(url: URL = anyUrl()) -> (sut: RemoteRecipeLoader, client: HTTPClientSpy) {
-        let client = HTTPClientSpy()
+    private func makeSUT(url: URL = anyUrl(), result: Result<(Data, URLResponse), Error> = .success(anyValidResponse())) -> (sut: RemoteRecipeLoader, client: HTTPClientSpy) {
+        let client = HTTPClientSpy(result: result)
         let sut = RemoteRecipeLoader(url: url, client: client)
         return (sut, client)
     }
     
     private class HTTPClientSpy: HTTPClient {
-        var requestedURLs = [URL]()
-        var error: Error?
+        private(set) var requestedURLs = [URL]()
+        var result: Result<(Data, URLResponse), Error>
         
-        func get(from url: URL) throws {
-            if let error {
-                throw error
-            }
+        init(result: Result<(Data, URLResponse), Error>) {
+            self.result = result
+        }
+        
+        func get(from url: URL) async throws -> (Data, URLResponse) {
             requestedURLs.append(url)
+            return try result.get()
         }
     }
 }
@@ -74,3 +74,17 @@ final class RemoteRecipeLoaderTests: XCTestCase {
 private func anyUrl() -> URL {
     URL(string: "http://any-url.com")!
 }
+
+private func httpResponse(code: Int) -> HTTPURLResponse {
+    HTTPURLResponse(url: anyUrl(), statusCode: code, httpVersion: nil, headerFields: nil)!
+}
+
+private func anyValidResponse() -> (Data, URLResponse) {
+    (Data(), httpResponse(code: 200))
+}
+
+private func anyError() -> Error {
+    AnyError()
+}
+
+private struct AnyError: Error {}
