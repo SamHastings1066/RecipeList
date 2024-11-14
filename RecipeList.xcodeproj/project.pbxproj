@@ -21,6 +21,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		84209EE12CE66FF2002171B8 /* RecipeListTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = RecipeListTests.xctestplan; sourceTree = "<group>"; };
 		84E8A5C62CDE8278007CC6B1 /* RecipeList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E8A5CE2CDE8278007CC6B1 /* RecipeListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -73,6 +74,7 @@
 		84E8A5BC2CDE8278007CC6B1 = {
 			isa = PBXGroup;
 			children = (
+				84209EE12CE66FF2002171B8 /* RecipeListTests.xctestplan */,
 				84E8A5C82CDE8278007CC6B1 /* RecipeList */,
 				84E8A5D22CDE8278007CC6B1 /* RecipeListTests */,
 				84E8A5C72CDE8278007CC6B1 /* Products */,

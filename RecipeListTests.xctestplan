@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "90C05B10-966A-421D-B482-0A19E390D410",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:RecipeList.xcodeproj",
+        "identifier" : "84E8A5CD2CDE8278007CC6B1",
+        "name" : "RecipeListTests"
+      }
+    }
+  ],
+  "version" : 1
+}
