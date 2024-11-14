@@ -170,10 +170,6 @@ final class RemoteRecipeLoaderTests: XCTestCase {
     }
 }
 
-private func anyUrl() -> URL {
-    URL(string: "http://any-url.com")!
-}
-
 private func httpResponse(code: Int) -> HTTPURLResponse {
     HTTPURLResponse(url: anyUrl(), statusCode: code, httpVersion: nil, headerFields: nil)!
 }
