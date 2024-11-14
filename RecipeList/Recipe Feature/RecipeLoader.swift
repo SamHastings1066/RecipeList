@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum LoadRecipeResult {
-    case success([RecipeItem])
-    case error(Error)
-}
-
 protocol RecipeLoader {
-    func load() async -> LoadRecipeResult
+    func load() async throws -> [RecipeItem]
 }
