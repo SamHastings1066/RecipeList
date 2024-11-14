@@ -7,10 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84209F032CE671FC002171B8 /* RecipeList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E8A5C62CDE8278007CC6B1 /* RecipeList.framework */; };
 		84E8A5CF2CDE8278007CC6B1 /* RecipeList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E8A5C62CDE8278007CC6B1 /* RecipeList.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		84209F042CE671FC002171B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84E8A5BD2CDE8278007CC6B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84E8A5C52CDE8278007CC6B1;
+			remoteInfo = RecipeList;
+		};
 		84E8A5D02CDE8278007CC6B1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84E8A5BD2CDE8278007CC6B1 /* Project object */;
@@ -22,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		84209EE12CE66FF2002171B8 /* RecipeListTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = RecipeListTests.xctestplan; sourceTree = "<group>"; };
+		84209EFF2CE671FC002171B8 /* RecipeListEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeListEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E8A5C62CDE8278007CC6B1 /* RecipeList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E8A5CE2CDE8278007CC6B1 /* RecipeListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -37,6 +46,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		84209F002CE671FC002171B8 /* RecipeListEndToEndTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RecipeListEndToEndTests;
+			sourceTree = "<group>";
+		};
 		84E8A5C82CDE8278007CC6B1 /* RecipeList */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -53,6 +67,14 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		84209EFC2CE671FC002171B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84209F032CE671FC002171B8 /* RecipeList.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84E8A5C32CDE8278007CC6B1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -77,6 +99,7 @@
 				84209EE12CE66FF2002171B8 /* RecipeListTests.xctestplan */,
 				84E8A5C82CDE8278007CC6B1 /* RecipeList */,
 				84E8A5D22CDE8278007CC6B1 /* RecipeListTests */,
+				84209F002CE671FC002171B8 /* RecipeListEndToEndTests */,
 				84E8A5C72CDE8278007CC6B1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,6 +109,7 @@
 			children = (
 				84E8A5C62CDE8278007CC6B1 /* RecipeList.framework */,
 				84E8A5CE2CDE8278007CC6B1 /* RecipeListTests.xctest */,
+				84209EFF2CE671FC002171B8 /* RecipeListEndToEndTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,6 +127,29 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		84209EFE2CE671FC002171B8 /* RecipeListEndToEndTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84209F082CE671FC002171B8 /* Build configuration list for PBXNativeTarget "RecipeListEndToEndTests" */;
+			buildPhases = (
+				84209EFB2CE671FC002171B8 /* Sources */,
+				84209EFC2CE671FC002171B8 /* Frameworks */,
+				84209EFD2CE671FC002171B8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84209F052CE671FC002171B8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				84209F002CE671FC002171B8 /* RecipeListEndToEndTests */,
+			);
+			name = RecipeListEndToEndTests;
+			packageProductDependencies = (
+			);
+			productName = RecipeListEndToEndTests;
+			productReference = 84209EFF2CE671FC002171B8 /* RecipeListEndToEndTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		84E8A5C52CDE8278007CC6B1 /* RecipeList */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84E8A5D72CDE8278007CC6B1 /* Build configuration list for PBXNativeTarget "RecipeList" */;
@@ -159,6 +206,9 @@
 				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
+					84209EFE2CE671FC002171B8 = {
+						CreatedOnToolsVersion = 16.1;
+					};
 					84E8A5C52CDE8278007CC6B1 = {
 						CreatedOnToolsVersion = 16.1;
 						LastSwiftMigration = 1610;
@@ -185,11 +235,19 @@
 			targets = (
 				84E8A5C52CDE8278007CC6B1 /* RecipeList */,
 				84E8A5CD2CDE8278007CC6B1 /* RecipeListTests */,
+				84209EFE2CE671FC002171B8 /* RecipeListEndToEndTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		84209EFD2CE671FC002171B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84E8A5C42CDE8278007CC6B1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,6 +265,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		84209EFB2CE671FC002171B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84E8A5C22CDE8278007CC6B1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -224,6 +289,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		84209F052CE671FC002171B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84E8A5C52CDE8278007CC6B1 /* RecipeList */;
+			targetProxy = 84209F042CE671FC002171B8 /* PBXContainerItemProxy */;
+		};
 		84E8A5D12CDE8278007CC6B1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84E8A5C52CDE8278007CC6B1 /* RecipeList */;
@@ -232,6 +302,36 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		84209F062CE671FC002171B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B8JM9B93DS;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.evrisevr.RecipeListEndToEndTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		84209F072CE671FC002171B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B8JM9B93DS;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.evrisevr.RecipeListEndToEndTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		84E8A5D82CDE8278007CC6B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -461,6 +561,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		84209F082CE671FC002171B8 /* Build configuration list for PBXNativeTarget "RecipeListEndToEndTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84209F062CE671FC002171B8 /* Debug */,
+				84209F072CE671FC002171B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		84E8A5C02CDE8278007CC6B1 /* Build configuration list for PBXProject "RecipeList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
