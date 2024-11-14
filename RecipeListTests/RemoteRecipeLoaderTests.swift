@@ -89,6 +89,35 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         }
     }
     
+    func test_load_deliversRecipeItemsOn200HTTPResponseWithJSONItems() async {
+        let item1 = makeRecipeItem(
+            cuisine: "Malaysian",
+            name: "Apam Balik",
+            uuid: "0c6ca6e7-e32a-4053-b824-1dbf749910d8"
+        )
+        
+        let item2 = makeRecipeItem(
+            cuisine: "British",
+            name: "Apple & Blackberry Crumble",
+            photoUrlLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/535dfe4e-5d61-4db6-ba8f-7a27b1214f5d/large.jpg",
+            photoUrlSmall: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/535dfe4e-5d61-4db6-ba8f-7a27b1214f5d/small.jpg",
+            sourceUrl: "https://www.bbcgoodfood.com/recipes/778642/apple-and-blackberry-crumble",
+            uuid: "599344f4-3c5c-4cca-b914-2210e3b3312f",
+            youtubeUrl: "https://www.youtube.com/watch?v=4vhcOwVBDO4"
+        )
+        
+        let items = [item1.model, item2.model]
+        let jsonData = makeRecipesJSONData([item1.json, item2.json])
+        let validResponse = (jsonData, httpResponse(code: 200))
+        let (sut, _) = makeSUT(result: .success(validResponse))
+        do {
+            let recipeItems = try await sut.load()
+            XCTAssertEqual(recipeItems, items)
+        } catch {
+            XCTFail("Expected success, got error: \(error.localizedDescription)")
+        }
+        
+    }
     
     // MARK: - Helpers
 
@@ -110,6 +139,29 @@ final class RemoteRecipeLoaderTests: XCTestCase {
             requestedURLs.append(url)
             return try result.get()
         }
+    }
+    
+    private func makeRecipeItem( cuisine: String, name: String, photoUrlLarge: String? = nil, photoUrlSmall: String? = nil, sourceUrl: String? = nil, uuid: String, youtubeUrl: String? = nil) -> (model: RecipeItem, json: [String: Any]) {
+        
+        let item = RecipeItem (
+            cuisine: cuisine,
+            name: name,
+            photoUrlLarge: photoUrlLarge,
+            photoUrlSmall: photoUrlSmall,
+            uuid: uuid,
+            sourceUrl: sourceUrl,
+            youtubeUrl: youtubeUrl
+        )
+        let json =  [
+            "cuisine": cuisine,
+            "name": name,
+            "photo_url_large": photoUrlLarge,
+            "photo_url_small": photoUrlSmall,
+            "uuid": uuid,
+            "source_url": sourceUrl,
+            "youtube_url": youtubeUrl
+        ].compactMapValues { $0 }
+        return (item, json)
     }
     
     private func makeRecipesJSONData(_ recipes: [[String: Any]]) -> Data {
