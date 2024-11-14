@@ -19,7 +19,6 @@ internal final class RecipeItemsMapper{
         guard response.statusCode == OK_200, let root = try? JSONDecoder().decode(Root.self, from: data) else {
             throw RemoteRecipeLoader.Error.invalidJson
         }
-        
         return root.recipes
     }
 }

@@ -30,14 +30,10 @@ public final class RemoteRecipeLoader {
         guard let (data, response) = try? await client.get(from: url) else {
             throw Error.connectivity
         }
-        
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             throw Error.invalidResponse
         }
-        
-            
         return try RemoteRecipeLoader.map(data, from: response)
-
     }
     
     private static func map(_ data: Data, from response: HTTPURLResponse) throws -> [RecipeItem] {
