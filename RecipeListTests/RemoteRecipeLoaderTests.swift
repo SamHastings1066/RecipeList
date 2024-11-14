@@ -16,21 +16,21 @@ final class RemoteRecipeLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [])
     }
     
-    func test_load_requestsDataFromURL() async throws {
+    func test_load_requestsDataFromURL() async {
         let url = URL(string: "http://a-given.com")!
         let (sut, client) = makeSUT(url: url)
         
-        _ = try await sut.load()
+        _ = try? await sut.load()
         
         XCTAssertEqual(client.requestedURLs, [url])
     }
     
-    func test_loadTwice_requestsDataFromURLTwice() async throws {
+    func test_loadTwice_requestsDataFromURLTwice() async {
         let url = URL(string: "http://a-given.com")!
         let (sut, client) = makeSUT(url: url)
         
-        _ = try await sut.load()
-        _ = try await sut.load()
+        _ = try? await sut.load()
+        _ = try? await sut.load()
         
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
@@ -92,7 +92,7 @@ final class RemoteRecipeLoaderTests: XCTestCase {
     
     // MARK: - Helpers
 
-    private func makeSUT(url: URL = anyUrl(), result: Result<(Data, URLResponse), Error> = .success(anyValidResponse())) -> (sut: RemoteRecipeLoader, client: HTTPClientSpy) {
+    private func makeSUT(url: URL = anyUrl(), result: Result<(Data, URLResponse), Error> = .failure(anyError()) ) -> (sut: RemoteRecipeLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy(result: result)
         let sut = RemoteRecipeLoader(url: url, client: client)
         return (sut, client)
@@ -124,15 +124,6 @@ private func anyUrl() -> URL {
 
 private func httpResponse(code: Int) -> HTTPURLResponse {
     HTTPURLResponse(url: anyUrl(), statusCode: code, httpVersion: nil, headerFields: nil)!
-}
-
-private func anyValidResponse() -> (Data, URLResponse) {
-    (anyValidData(), httpResponse(code: 200))
-}
-
-private func anyValidData() -> Data {
-    let json: [String: Any] = [:]
-    return try! JSONSerialization.data(withJSONObject: json)
 }
 
 private func anyError() -> Error {
