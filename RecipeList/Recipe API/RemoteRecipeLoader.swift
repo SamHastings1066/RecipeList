@@ -35,10 +35,19 @@ public final class RemoteRecipeLoader {
             throw Error.invalidResponse
         }
         
-        if let json = try? JSONSerialization.jsonObject(with: data) {
-            return []
-        } else {
-            throw Error.invalidJson
-        }
+            
+        return try RemoteRecipeLoader.map(data, from: response)
+
+    }
+    
+    private static func map(_ data: Data, from response: HTTPURLResponse) throws -> [RecipeItem] {
+        let items = try RecipeItemsMapper.map(data, from: response)
+        return items.toModels()
+    }
+}
+
+private extension Array where Element == RemoteRecipeItem {
+    func toModels() -> [RecipeItem] {
+        return map{ RecipeItem(cuisine: $0.cuisine, name: $0.name, photoUrlLarge: $0.photo_url_large, photoUrlSmall: $0.photo_url_small, uuid: $0.uuid, sourceUrl: $0.source_url, youtubeUrl: $0.youtube_url) }
     }
 }
