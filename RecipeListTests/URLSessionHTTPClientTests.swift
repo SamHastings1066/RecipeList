@@ -41,6 +41,18 @@ final class URLSessionHTTPClientTests: XCTestCase {
         
     }
     
+    func test_getFromURL_succeedsOnHTTPURLResponseWithData() async throws {
+        let validResponse = anyValidResponse()
+        let (sut, _) = makeSUT(result: .success(validResponse))
+        
+        let (receivedData, receivedResponse) = try await sut.get(from: anyUrl())
+        
+        XCTAssertEqual(receivedData, validResponse.data)
+        XCTAssertEqual(receivedResponse, validResponse.response)
+            
+    }
+    
+    
     // MARK: - Helpers
     
     private func makeSUT(result: Result<(Data, URLResponse), Error> = .failure(anyError())) -> (sut: HTTPClient, session: URLSessionSpy) {
@@ -65,6 +77,6 @@ final class URLSessionHTTPClientTests: XCTestCase {
     }
 }
 
-private func anyValidResponse() -> (Data, URLResponse) {
+private func anyValidResponse() -> (data: Data, response: URLResponse) {
     (Data(), httpResponse(code: 200))
 }
