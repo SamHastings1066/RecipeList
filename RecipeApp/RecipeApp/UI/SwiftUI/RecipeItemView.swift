@@ -1,5 +1,5 @@
 //
-//  RecipeView.swift
+//  RecipeItemView.swift
 //  RecipeApp
 //
 //  Created by sam hastings on 19/11/2024.
@@ -8,7 +8,7 @@
 import SwiftUI
 import RecipeList
 
-struct RecipeView: View {
+struct RecipeItemView: View {
     let recipe: RecipeItem
     var body: some View {
         HStack {
@@ -40,5 +40,5 @@ struct RecipeView: View {
         sourceUrl: "https://www.bbcgoodfood.com/recipes/778642/apple-and-blackberry-crumble",
         youtubeUrl: "https://www.youtube.com/watch?v=4vhcOwVBDO4"
     )
-    RecipeView(recipe: recipe)
+    RecipeItemView(recipe: recipe)
 }

@@ -19,7 +19,7 @@ struct RecipeListView: View {
             .fontWeight(.medium)
         
         List(recipeList, id: \.uuid) { recipe in
-            RecipeView(recipe: recipe)
+            RecipeItemView(recipe: recipe)
         }
         .listStyle(.plain)
         
