@@ -17,6 +17,15 @@ final class RecipeListViewModelTests: XCTestCase {
         XCTAssertTrue(sut.isLoading)
         
     }
+    
+    func test_loadRecipes_setsLoadingStateToFalse() async {
+        let sut = makeSUT()
+        
+        _ = await sut.loadRecipes()
+        
+        XCTAssertFalse(sut.isLoading)
+        
+    }
 
     // MARK: - Helper
     

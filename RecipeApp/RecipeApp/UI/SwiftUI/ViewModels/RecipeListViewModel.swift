@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RecipeList
 
 public class RecipeListViewModel {
     
@@ -13,5 +14,11 @@ public class RecipeListViewModel {
     
     public init() {
         
+    }
+    
+    public func loadRecipes() async -> [RecipeItem] {
+        isLoading = true
+        isLoading = false
+        return []
     }
 }
