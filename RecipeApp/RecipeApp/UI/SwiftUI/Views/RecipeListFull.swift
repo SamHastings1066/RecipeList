@@ -1,5 +1,5 @@
 //
-//  RecipeListView.swift
+//  RecipeListFull.swift
 //  RecipeApp
 //
 //  Created by sam hastings on 18/11/2024.
@@ -8,15 +8,10 @@
 import SwiftUI
 import RecipeList
 
-struct RecipeListView: View {
-    let title: String
+struct RecipeListFull: View {
     let recipeList: [RecipeItem]
     
     var body: some View {
-        
-        Text(title)
-            .font(.title)
-            .fontWeight(.medium)
         
         List(recipeList, id: \.uuid) { recipe in
             RecipeItemView(recipe: recipe)
@@ -48,7 +43,7 @@ struct RecipeListView: View {
         ),
     ]
 
-    RecipeListView(title: "Recipes", recipeList: recipeList)
+    RecipeListFull(recipeList: recipeList)
         
         
     
