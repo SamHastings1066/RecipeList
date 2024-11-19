@@ -19,22 +19,7 @@ struct RecipeListView: View {
             .fontWeight(.medium)
         
         List(recipeList, id: \.uuid) { recipe in
-            HStack {
-
-                Image(systemName: "fork.knife.circle")
-                    .resizable()
-                    .frame(width: 120, height: 120)
-                    
-                VStack(alignment: .leading) {
-                    Text(recipe.name)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                    Text(recipe.cuisine)
-                        .font(.subheadline)
-                        
-                }
-            }
-            .listRowSeparator(.hidden)
+            RecipeView(recipe: recipe)
         }
         .listStyle(.plain)
         
